@@ -2,10 +2,9 @@ import asyncio
 import logging
 
 from concurrent.futures import ThreadPoolExecutor
-from telegram import Bot
-from telegram.constants import ParseMode
+from telegram import Bot, ParseMode
 from telegram.error import RetryAfter
-from telegram.request._httpxrequest import HTTPXRequest
+from telegram.utils.request import Request
 from time import sleep
 
 
@@ -30,7 +29,7 @@ class TelegramSender:
 
         self.telegram_executor = ThreadPoolExecutor(max_workers=3)
 
-        self.request = HTTPXRequest(connection_pool_size=3)
+        self.request = Request(con_pool_size=3)
         self.bot = Bot(self.token, request=self.request)
 
         self.logger = logging.getLogger("telegram-sender")
