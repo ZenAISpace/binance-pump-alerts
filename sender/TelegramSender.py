@@ -1,9 +1,11 @@
+import asyncio
 import logging
 
 from concurrent.futures import ThreadPoolExecutor
-from telegram import Bot, ParseMode
+from telegram import Bot
+from telegram.constants import ParseMode
 from telegram.error import RetryAfter
-from telegram.utils.request import Request
+from telegram.request._httpxrequest import HTTPXRequest
 from time import sleep
 
 
@@ -28,7 +30,7 @@ class TelegramSender:
 
         self.telegram_executor = ThreadPoolExecutor(max_workers=3)
 
-        self.request = Request(con_pool_size=3)
+        self.request = HTTPXRequest(connection_pool_size=3)
         self.bot = Bot(self.token, request=self.request)
 
         self.logger = logging.getLogger("telegram-sender")
@@ -43,12 +45,12 @@ class TelegramSender:
             self.logger.info(message)
 
             try:
-                bot.send_message(
+                asyncio.run(bot.send_message(
                     chat_id=chat_id,
                     text=message,
                     parse_mode=ParseMode.MARKDOWN,
                     disable_web_page_preview=True,
-                )
+                ))
             except RetryAfter as e:
                 self.logger.error(
                     "Flood limit is exceeded. Sleep {} seconds.", e.retry_after

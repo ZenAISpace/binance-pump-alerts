@@ -10,7 +10,7 @@ BPA is a simple application which gets the price data from Binance Spot or Futur
 
 1. On the command-line, run the command `pip install -r requirements.txt` while located at folder with code.
 1. Create a new telegram bot token from [@botfather](https://t.me/BotFather).
-1. Get telegram `chat_id` from [@get_id_bot](https://telegram.me/get_id_bot).
+1. Get telegram `chat_id` from [@get_id_bot](https://telegram.me/get_id_bot). 
    - Alternatively, a `channel_id` can be used as well.
 1. Add pairs to watch into the watchlist or to ignore in blacklist or leave it empty to monitor all tickers on Binance.
 1. Run the script with the command `python pumpAlerts.py`.
